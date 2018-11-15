@@ -9,7 +9,7 @@ def pictureUpload():
     upload_file = request.files['file']
     old_file_name = upload_file.filename
     if upload_file:
-        file_path = os.path.join('../src/pics', old_file_name)
+        file_path = os.path.join('./src/pics', old_file_name)
         upload_file.save(file_path)
         db = pymysql.connect("localhost","root","123456","iotplatform")
         cursor = db.cursor()
