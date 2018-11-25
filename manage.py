@@ -1,4 +1,4 @@
-from flask import request, Flask, jsonify
+from flask import request, Flask, jsonify, send_from_directory
 import time
 import json
 import pymysql
@@ -27,7 +27,7 @@ def pictureUpload():
         return 'failed'
 
 @app.route("/shareShow", methods=['GET'])
-def shareShow():
+def shareShow1():
     db = pymysql.connect("localhost", "root", "123456", "iotplatform")
     cursor = db.cursor()
     try:
@@ -37,7 +37,14 @@ def shareShow():
     except:
         db.rollback()
     db.close()
+    re = {'list': []}
+    for i in range(len(temp)):
+        re['list'].append({'user_ID': temp[i][0], 'location': temp[i][1]});
+    return jsonify(re);
 
+@app.route("/shareShow/<path:sharePath>")
+def shareShow2(sharePath):
+    return send_from_directory('./',sharePath,as_attachment=True)
 
 
 if __name__ == "__main__":
